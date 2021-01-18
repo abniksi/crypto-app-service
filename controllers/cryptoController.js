@@ -10,7 +10,7 @@ getCryptoPrice = async (req, res) => {
 getMarketChart = async (req, res) => {
     const url = `https://api.coingecko.com/api/v3/coins/${req.params.id}/market_chart?vs_currency=${req.params.currency}&days=${req.params.days}&interval=daily`
     let response = await axios.get(url);
-    res.send(`${req.params.id} market chart is: ` + util.inspect(response.data));
+    res.send(util.inspect(response.data.prices));
 }
 
 getAveragePrice = async (req, res) => {

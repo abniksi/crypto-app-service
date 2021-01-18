@@ -1,8 +1,8 @@
 const express = require('express');
 const cryptoRouter = require('./routes/cryptoRoutes');
 const app = express();
-const apiPort = 3000;
+const apiPort = 8000;
 
-app.use('/api', cryptoRouter)
+app.use('/api', cryptoRouter);
 
-app.listen(apiPort, () => console.log(`Server running on port ${apiPort}`))
+app.listen(apiPort, () => console.log(`Server running on port ${8000}`))
