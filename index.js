@@ -5,4 +5,4 @@ const apiPort = 8000;
 
 app.use('/api', cryptoRouter);
 
-app.listen(apiPort, () => console.log(`Server running on port ${8000}`))
+app.listen(process.env.PORT || apiPort, () => console.log(`Server running on port ${8000}`))
