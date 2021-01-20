@@ -4,7 +4,7 @@ const util = require('util');
 getCryptoPrice = async (req, res) => {
     const url = `https://api.coingecko.com/api/v3/simple/price?ids=${req.params.id}&vs_currencies=usd`;
     let response = await axios.get(url);
-    res.send(`${req.params.id} price is: ` + util.inspect(response.data[req.params.id].usd));
+    res.json(util.inspect(response.data[req.params.id].usd));
 }
 
 getMarketChart = async (req, res) => {
