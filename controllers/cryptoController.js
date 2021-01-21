@@ -1,5 +1,6 @@
 const axios = require('axios');
 const util = require('util');
+const format = require('date-format');
 
 getCryptoPrice = async (req, res) => {
     const url = `https://api.coingecko.com/api/v3/simple/price?ids=${req.params.id}&vs_currencies=usd`;
@@ -23,6 +24,20 @@ getAveragePrice = async (req, res) => {
     res.send(`${req.params.id}'s average price for the last ${req.params.days} days is: ` + runningTotal / req.params.days);
 }
 
+get24HourChange = async (req, res) => {
+    const today = new Date();
+    let yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+    yesterday = format.asString('dd-MM-yyyy', yesterday);
+
+    let currentResponse = await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=${req.params.id}&vs_currencies=usd`);
+    let previousDayResponse = await axios.get(`https://api.coingecko.com/api/v3/coins/${req.params.id}/history?date=${yesterday}`);
+
+    let percentChange = ((currentResponse.data[req.params.id].usd - previousDayResponse.data.market_data.current_price.usd) / ((currentResponse.data[req.params.id].usd + previousDayResponse.data.market_data.current_price.usd )/ (2)) * 100);
+    res.json(util.inspect(percentChange));
+    //res.json(util.inspect(previousDayResponse.data.market_data.current_price.usd));
+} 
+
 superSecretRoute = (req, res) => {
     res.send('You have found the super secret route here is a cookie for you! 🍪')
 }
@@ -31,5 +46,6 @@ module.exports = {
     getCryptoPrice,
     getMarketChart,
     getAveragePrice,
+    get24HourChange,
     superSecretRoute
 }
